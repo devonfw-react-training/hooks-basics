@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react"
 
-export const useIterval = (height: string) => {
-  const [state, setState] = useState(height)
+export const useIterval = (height: number): [number, (newValue: number) => void] => {
+  const [state, setState] = useState(height);
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setState(JSON.stringify(JSON.parse(state) + 1))
-    }, 1000)
+      setState(prev => (prev + 1) % 100);
+    }, 100)
     return () => {
       clearInterval(timer)
     }
-  })
-  return {
+  });
+
+  return [
     state,
     setState,
-  }
+  ];
 }
